@@ -61,6 +61,16 @@ The `dist` folder contains `vue-datepicker-local.js` and `vue-datepicker-local.c
 </html>
 
 ```
+### Props
+
+| Prop         | Description                                      | Type       | Default            |
+|:-------------|:-------------------------------------------------|:-----------|:-------------------|
+| v-model      | dates to be manipulated                          | Date/Array | --                 |
+| disabled     | determine whether the DatePicker is disabled     | Boolean    | false              |
+| placeholder  | placeholder of date input                        | String     | --                 |
+| format       | to set the date format                           | String     | "YYYY-MM-DD"       |
+| locale       | the locale of the DatePicker                     | Object     | {<br/>dow: 1, // Monday is the first day of the week<br/>hourTip: '选择小时', // tip of select hour<br/>minuteTip: '选择分钟', // tip of select minute<br/>secondTip: '选择秒数', // tip of select second<br/>yearSuffix: '年', // format of head<br/>monthsHead: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // months of head<br/>months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'), // months of panel<br/>weeks: '一_二_三_四_五_六_日'.split('_') // weeks<br/>}                 |
+| disabledDate | specify the date that cannot be selected         | Function   | ()=>{return false} |
 
 ## License
 vue-strap is licensed under [The MIT License](LICENSE).
