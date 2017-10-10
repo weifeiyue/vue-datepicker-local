@@ -1,0 +1,242 @@
+<template>
+<div class="datepicker" :class="{'datepicker-range':range}">
+  <input readonly :value="text" :class="{focus:show}" :disabled="disabled" :placeholder="placeholder"/>
+  <transition name="datepicker-anim">
+    <div class="datepicker-popup" tabindex="-1" v-if="show">
+      <template v-if="range">
+        <vue-datepicker-local-calendar v-model="dates[0]" :left="true"></vue-datepicker-local-calendar>
+        <vue-datepicker-local-calendar v-model="dates[1]" :right="true"></vue-datepicker-local-calendar>
+      </template>
+      <template v-else>
+        <vue-datepicker-local-calendar v-model="dates[0]"></vue-datepicker-local-calendar>
+      </template>
+    </div>
+  </transition>
+</div>
+</template>
+
+<script>
+import VueDatepickerLocalCalendar from './VueDatepickerLocalCalendar.vue'
+export default {
+  name: 'VueDatepickerLocal',
+  components: { VueDatepickerLocalCalendar },
+  props: {
+    value: [Date, Array],
+    disabled: [Boolean],
+    placeholder: [String],
+    disabledDate: {
+      type: Function,
+      default: () => {
+        return false
+      }
+    },
+    format: {
+      type: String,
+      default: 'YYYY-MM-DD'
+    },
+    locale: {
+      type: Object,
+      default () {
+        return {
+          dow: 1, // Monday is the first day of the week
+          hourTip: '选择小时', // tip of select hour
+          minuteTip: '选择分钟', // tip of select minute
+          secondTip: '选择秒数', // tip of select second
+          yearSuffix: '年', // format of head
+          monthsHead: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // months of head
+          months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'), // months of panel
+          weeks: '一_二_三_四_五_六_日'.split('_') // weeks
+        }
+      }
+    }
+  },
+  data () {
+    return {
+      show: false,
+      dates: this.vi(this.value)
+    }
+  },
+  computed: {
+    range () {
+      return this.dates.length === 2
+    },
+    text () {
+      return this.dates.map(date => this.tf(date)).join(' ~ ')
+    }
+  },
+  watch: {
+    value (val) {
+      this.dates = this.vi(this.value)
+    }
+  },
+  methods: {
+    vi (val) {
+      return Array.isArray(val) ? val.map(item => new Date(item)) : new Array(new Date(val))
+    },
+    ok () {
+      const $this = this
+      $this.$emit('input', Array.isArray($this.value) ? $this.dates : $this.dates[0])
+      setTimeout(() => {
+        $this.show = $this.range
+      })
+    },
+    tf (time, format) {
+      const year = time.getFullYear()
+      const month = time.getMonth() + 1
+      const day = time.getDate()
+      const hours24 = time.getHours()
+      const hours = hours24 % 12 === 0 ? 12 : hours24 % 12
+      const minutes = time.getMinutes()
+      const seconds = time.getSeconds()
+      const milliseconds = time.getMilliseconds()
+      const dd = t => ('0' + t).slice(-2)
+      const map = {
+        YYYY: year,
+        MM: dd(month),
+        M: month,
+        DD: dd(day),
+        D: day,
+        HH: dd(hours24),
+        H: hours24,
+        hh: dd(hours),
+        h: hours,
+        mm: dd(minutes),
+        m: minutes,
+        ss: dd(seconds),
+        s: seconds,
+        S: milliseconds
+      }
+      return (format || this.format).replace(/Y+|M+|D+|H+|h+|m+|s+|S+/g, str => map[str])
+    },
+    dc (e) {
+      this.show = this.$el.contains(e.target)
+    }
+  },
+  mounted () {
+    document.addEventListener('click', this.dc)
+  },
+  beforeDestroy () {
+    document.removeEventListener('click', this.dc)
+  }
+}
+</script>
+
+<style>
+.datepicker {
+  display: inline-block;
+  position: relative;
+}
+
+.datepicker:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 34px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background: url('data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjxwYXRoIGQ9Ik01NjQgMTgwLjJINDQ4Yy04LjMgMC0xNS02LjctMTUtMTVzNi43LTE1IDE1LTE1aDExNmM4LjIgMCAxNSA2LjcgMTUgMTVzLTYuOCAxNS0xNSAxNXoiIGZpbGw9IiM5ODk4OTgiLz48cGF0aCBkPSJNOTQ1IDk1Mi4ySDgxLjJjLTguMiAwLTE1LTYuNy0xNS0xNVYxNjIuOGMwLTguMyA2LjgtMTUgMTUtMTVIMjk0YzguMiAwIDE1IDYuNyAxNSAxNXMtNi44IDE1LTE1IDE1SDk2LjJ2NzQ0LjRIOTMwVjE3Ny44SDcxMy42Yy04LjMgMC0xNS02LjctMTUtMTVzNi43LTE1IDE1LTE1SDk0NWM4LjIgMCAxNSA2LjcgMTUgMTV2Nzc0LjRjMCA4LjMtNi44IDE1LTE1IDE1eiIgZmlsbD0iIzk4OTg5OCIvPjxwYXRoIGQ9Ik0zMzMuMyA1NTFIMjE2Yy04LjIgMC0xNS02LjgtMTUtMTVzNi44LTE1IDE1LTE1aDExNy4zYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1em0yMzAuMyAwSDQ0Ni4zYy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4zYzguMiAwIDE1IDYuNiAxNSAxNXMtNi44IDE1LTE1IDE1em0yMzAuMiAwSDY3Ni42Yy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4yYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1ek0zMzMuMyA3NDBIMjE2Yy04LjIgMC0xNS02LjgtMTUtMTVzNi44LTE1IDE1LTE1aDExNy4zYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1em0yMzAuMyAwSDQ0Ni4zYy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4zYzguMiAwIDE1IDYuNiAxNSAxNXMtNi44IDE1LTE1IDE1em0yMzAuMiAwSDY3Ni42Yy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4yYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1ek0zNzAuOCAyNTguNmMtOC4zIDAtMTUtNi43LTE1LTE1Vjg2LjhjMC04LjIgNi43LTE1IDE1LTE1czE1IDYuOCAxNSAxNXYxNTYuOGMwIDguMy02LjcgMTUtMTUgMTV6bTI3MC4yIDBjLTguMyAwLTE1LTYuNy0xNS0xNVY4Ni44YzAtOC4yIDYuNy0xNSAxNS0xNXMxNSA2LjggMTUgMTV2MTU2LjhjMCA4LjMtNi43IDE1LTE1IDE1ek05NDUgMzcyLjJIODEuMmMtOC4yIDAtMTUtNi43LTE1LTE1czYuOC0xNSAxNS0xNUg5NDVjOC4yIDAgMTUgNi43IDE1IDE1cy02LjggMTUtMTUgMTV6IiBmaWxsPSIjOTg5ODk4Ii8+PC9zdmc+') no-repeat 50% 50%;
+}
+
+.datepicker>input {
+  color: #666;
+  transition: all 200ms ease;
+  border: 1px solid #e5e5e5;
+  height: 34px;
+  box-sizing: border-box;
+  outline: none;
+  padding: 0 34px 0 12px;
+  font-size: 14px;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.datepicker>input.focus {
+  border-color: #3bb4f2;
+  -webkit-box-shadow: 0 0 5px rgba(59, 180, 242, .3);
+  box-shadow: 0 0 5px rgba(59, 180, 242, .3);
+}
+
+.datepicker>input:disabled {
+  cursor: not-allowed;
+  background-color: #ebebe4;
+  border-color: #e5e5e5;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.datepicker-popup {
+  position: absolute;
+  transition: all 200ms ease;
+  opacity: 1;
+  transform: scaleY(1);
+  transform-origin: center top;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 1px 6px rgba(99, 99, 99, 0.2);
+  margin-top: 2px;
+  outline: 0;
+  padding: 5px;
+  overflow: hidden;
+  z-index: 999
+}
+
+.datepicker-range {
+  min-width: 325px
+}
+
+.datepicker-range .datepicker-popup{
+  width: 403px;
+}
+
+.datepicker-bottom {
+  float: left;
+  width: 100%;
+  text-align: right;
+}
+
+.datepicker-btn {
+  padding: 5px 10px;
+  background: #1284e7;
+  color: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  cursor: pointer;
+}
+.datepicker-anim-enter-active {
+    transform-origin: 0 0;
+    animation: datepicker-anim-in .2s cubic-bezier(.23, 1, .32, 1)
+}
+
+.datepicker-anim-leave-active {
+    transform-origin: 0 0;
+    animation: datepicker-anim-out .2s cubic-bezier(.755, .05, .855, .06)
+}
+
+@keyframes datepicker-anim-in {
+    0% {
+        opacity: 0;
+        transform: scaleY(.8)
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1)
+    }
+}
+
+@keyframes datepicker-anim-out {
+    0% {
+        opacity: 1;
+        transform: scaleY(1)
+    }
+    to {
+        opacity: 0;
+        transform: scaleY(.8)
+    }
+}
+</style>
