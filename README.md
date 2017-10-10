@@ -45,7 +45,7 @@ The `dist` folder contains `vue-datepicker-local.js` and `vue-datepicker-local.c
 </head>
 <body>
   <div id="app">
-    <vue-datepicker-local></vue-datepicker-local>
+    <vue-datepicker-local v-model="time"></vue-datepicker-local>
   </div>
   <script src="path/to/vue.js"></script>
   <script src="path/to/vue-datepicker-local.js"></script>
