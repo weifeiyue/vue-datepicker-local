@@ -13,10 +13,13 @@
         margin-bottom: 10px;
         border-radius: 6px;
       }
+      code i{
+        color: #ccc
+      }
     </style>
   </head>
   <body>
-    <div id="app">
+    <div id="app" style="margin-bottom:300px">
       <h3>Default</h3>
       <code>&lt;vue-datepicker-local v-model=&quot;time&quot;&gt;&lt;/vue-datepicker-local&gt;</code><br>
       <vue-datepicker-local v-model="time"></vue-datepicker-local>
@@ -33,7 +36,26 @@
       <code>&lt;vue-datepicker-local v-model=&quot;time&quot; disabled&gt;&lt;/vue-datepicker-local&gt;</code><br>
       <vue-datepicker-local v-model="time" disabled></vue-datepicker-local>
       <h3>Local</h3>
-      <vue-datepicker-local v-model="time" :local="local"></vue-datepicker-local>
+      <code>&lt;vue-datepicker-local v-model=&quot;time&quot; :local=&quot;{<br>
+        <b>dow:</b> 0, <i>// Sunday is the first day of the week</i><br>
+        <b>hourTip:</b> &#39;Select Hour&#39;, <i>// tip of select hour</i><br>
+        <b>minuteTip:</b> &#39;Select Minute&#39;, <i>// tip of select minute</i><br>
+        <b>secondTip:</b> &#39;Select Second&#39;, <i>// tip of select second</i><br>
+        <b>yearSuffix:</b> &#39;&#39;, <i>// suffix of head</i><br>
+        <b>monthsHead:</b> &#39;January_February_March_April_May_June_July_August_September_October_November_December&#39;.split(&#39;_&#39;), <i>// months of head</i><br>
+        <b>months:</b> &#39;Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec&#39;.split(&#39;_&#39;), <i>// months of panel</i><br>
+        <b>weeks: </b>&#39;Su_Mo_Tu_We_Th_Fr_Sa&#39;.split(&#39;_&#39;)<i> // weeks</i><br>
+      }&quot;&gt;&lt;/vue-datepicker-local&gt;</code><br>
+      <vue-datepicker-local v-model="time" :local="{
+        dow: 0, // Sunday is the first day of the week
+        hourTip: 'Select Hour', // tip of select hour
+        minuteTip: 'Select Minute', // tip of select minute
+        secondTip: 'Select Second', // tip of select second
+        yearSuffix: '', // suffix of head
+        monthsHead: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'), // months of head
+        months: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'), // months of panel
+        weeks: 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_') // weeks
+      }"></vue-datepicker-local>
     </div>
     <script src="vue.min.js" charset="utf-8"></script>
     <script src="vue-datepicker-local.js" charset="utf-8"></script>
@@ -42,10 +64,7 @@
         el: '#app',
         data: {
           time: new Date(),
-          range: [new Date(),new Date()],
-          local: {
-
-          }
+          range: [new Date(),new Date()]
         }
       })
     </script>
