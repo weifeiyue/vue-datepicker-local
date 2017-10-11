@@ -5,34 +5,35 @@
     <title></title>
     <link rel="stylesheet" href="vue-datepicker-local.css">
     <style media="screen">
-      .left{
-        float: left;
-        margin-right: 10px;
+      code{
+        display: inline-block;
+        padding: 10px;
+        color: #2973b7;
+        background: #f8f8f8;
+        margin-bottom: 10px;
+        border-radius: 6px;
       }
     </style>
   </head>
   <body>
     <div id="app">
-      <div class="left">
-        <h3>Default</h3>
-        <vue-datepicker-local v-model="time"></vue-datepicker-local>
-      </div>
-      <div class="left">
-        <h3>Year</h3>
-        <vue-datepicker-local v-model="time" format="YYYY"></vue-datepicker-local>
-      </div>
-      <div class="left">
-        <h3>Month</h3>
-        <vue-datepicker-local v-model="time" format="YYYY-MM"></vue-datepicker-local>
-      </div>
-      <div class="left">
-        <h3>Time</h3>
-        <vue-datepicker-local v-model="time" format="YYYY-MM-DD HH:mm:ss"></vue-datepicker-local>
-      </div>
-      <div class="left">
-        <h3>Disabled</h3>
-        <vue-datepicker-local v-model="time" disabled></vue-datepicker-local>
-      </div>
+      <h3>Default</h3>
+      <code>&lt;vue-datepicker-local v-model=&quot;time&quot;&gt;&lt;/vue-datepicker-local&gt;</code><br>
+      <vue-datepicker-local v-model="time"></vue-datepicker-local>
+      <h3>Year</h3>
+      <code>&lt;vue-datepicker-local v-model=&quot;time&quot; format=&quot;YYYY&quot;&gt;&lt;/vue-datepicker-local&gt;</code><br>
+      <vue-datepicker-local v-model="time" format="YYYY"></vue-datepicker-local>
+      <h3>Month</h3>
+      <code>&lt;vue-datepicker-local v-model=&quot;time&quot; format=&quot;YYYY-MM&quot;&gt;&lt;/vue-datepicker-local&gt;</code><br>
+      <vue-datepicker-local v-model="time" format="YYYY-MM"></vue-datepicker-local>
+      <h3>Time</h3>
+      <code>&lt;vue-datepicker-local v-model=&quot;time&quot; format=&quot;YYYY-MM-DD HH:mm:ss&quot;&gt;&lt;/vue-datepicker-local&gt;</code><br>
+      <vue-datepicker-local v-model="time" format="YYYY-MM-DD HH:mm:ss"></vue-datepicker-local>
+      <h3>Disabled</h3>
+      <code>&lt;vue-datepicker-local v-model=&quot;time&quot; disabled&gt;&lt;/vue-datepicker-local&gt;</code><br>
+      <vue-datepicker-local v-model="time" disabled></vue-datepicker-local>
+      <h3>Local</h3>
+      <vue-datepicker-local v-model="time" :local="local"></vue-datepicker-local>
     </div>
     <script src="vue.min.js" charset="utf-8"></script>
     <script src="vue-datepicker-local.js" charset="utf-8"></script>
@@ -40,7 +41,11 @@
       new Vue({
         el: '#app',
         data: {
-          time: new Date()
+          time: new Date(),
+          range: [new Date(),new Date()],
+          local: {
+
+          }
         }
       })
     </script>
