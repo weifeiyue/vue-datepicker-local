@@ -34,7 +34,7 @@ export default {
       type: String,
       default: 'YYYY-MM-DD'
     },
-    locale: {
+    local: {
       type: Object,
       default () {
         return {

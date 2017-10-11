@@ -1,8 +1,8 @@
 <template>
 <div>
   <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate"/><br/>
-  <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :locale="locale"/><br/>
-  <vue-datepicker-local v-model="time" format="YYYY-MM-DD" :locale="locale"/><br/>
+  <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :local="local"/><br/>
+  <vue-datepicker-local v-model="time" format="YYYY-MM-DD" :local="local"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY-MM"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY"/><br/>
   <vue-datepicker-local v-model="now" format="YYYY-MM-DD HH:mm:ss"/><br/>
@@ -23,7 +23,7 @@ export default {
       min: min,
       max: max,
       timeRange: [min, max],
-      locale: {
+      local: {
         dow: 4, // Sunday is the first day of the week
         hourTip: 'Select Hour', // tip of select hour
         minuteTip: 'Select Minute', // tip of select minute
