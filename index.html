@@ -4,11 +4,35 @@
     <meta charset="utf-8">
     <title></title>
     <link rel="stylesheet" href="vue-datepicker-local.css">
+    <style media="screen">
+      .left{
+        float: left;
+        margin-right: 10px;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
-      <vue-datepicker-local v-model="time" :format="format"></vue-datepicker-local><br/>
-      <input type="text" v-model="format" />
+      <div class="left">
+        <h3>Default</h3>
+        <vue-datepicker-local v-model="time"></vue-datepicker-local>
+      </div>
+      <div class="left">
+        <h3>Year</h3>
+        <vue-datepicker-local v-model="time" format="YYYY"></vue-datepicker-local>
+      </div>
+      <div class="left">
+        <h3>Month</h3>
+        <vue-datepicker-local v-model="time" format="YYYY-MM"></vue-datepicker-local>
+      </div>
+      <div class="left">
+        <h3>Time</h3>
+        <vue-datepicker-local v-model="time" format="YYYY-MM-DD HH:mm:ss"></vue-datepicker-local>
+      </div>
+      <div class="left">
+        <h3>Disabled</h3>
+        <vue-datepicker-local v-model="time" disabled></vue-datepicker-local>
+      </div>
     </div>
     <script src="vue.min.js" charset="utf-8"></script>
     <script src="vue-datepicker-local.js" charset="utf-8"></script>
@@ -16,8 +40,7 @@
       new Vue({
         el: '#app',
         data: {
-          time: new Date(),
-          format: 'YYYY-MM'
+          time: new Date()
         }
       })
     </script>
