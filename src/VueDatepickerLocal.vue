@@ -109,7 +109,7 @@ export default {
       return (format || this.format).replace(/Y+|M+|D+|H+|h+|m+|s+|S+/g, str => map[str])
     },
     dc (e) {
-      this.show = this.$el.contains(e.target)
+      this.show = this.$el.contains(e.target) && !this.disabled
     }
   },
   mounted () {

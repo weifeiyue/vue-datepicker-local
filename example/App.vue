@@ -5,7 +5,8 @@
   <vue-datepicker-local v-model="time" format="YYYY-MM-DD" :locale="locale"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY-MM"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY"/><br/>
-  <vue-datepicker-local v-model="now" format="YYYY-MM-DD HH:mm:ss"/>
+  <vue-datepicker-local v-model="now" format="YYYY-MM-DD HH:mm:ss"/><br/>
+  <vue-datepicker-local v-model="now" disabled/>
 </div>
 </template>
 
@@ -19,6 +20,8 @@ export default {
     return {
       now: now,
       time: min,
+      min: min,
+      max: max,
       timeRange: [min, max],
       locale: {
         dow: 4, // Sunday is the first day of the week
@@ -34,7 +37,7 @@ export default {
   },
   methods: {
     disabledDate (time) {
-      return false // time < this.min || time > this.max
+      return time < this.min || time > this.max
     }
   }
 }
