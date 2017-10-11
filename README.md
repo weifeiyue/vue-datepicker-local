@@ -5,6 +5,9 @@
 * Only dependencies Vue
 * Beautiful!
 
+## Demo
+[https://weifeiyue.github.io/vue-datepicker-local/](https://weifeiyue.github.io/vue-datepicker-local/)
+
 ## Usage
 
 ### Install
