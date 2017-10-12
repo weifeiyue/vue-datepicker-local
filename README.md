@@ -5,6 +5,8 @@
 * Only dependencies Vue
 * Beautiful!
 
+![image](https://raw.githubusercontent.com/weifeiyue/vue-datepicker-local/gh-pages/preview.png)
+
 ## Demo
 [https://weifeiyue.github.io/vue-datepicker-local/](https://weifeiyue.github.io/vue-datepicker-local/)
 
