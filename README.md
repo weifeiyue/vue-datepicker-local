@@ -75,4 +75,4 @@ The `dist` folder contains `vue-datepicker-local.js` and `vue-datepicker-local.c
 | disabledDate | specify the date that cannot be selected         | Function   | ()=>{return false} |
 
 ## License
-vue-strap is licensed under [The MIT License](LICENSE).
+vue-datepicker-local is licensed under [The MIT License](LICENSE).
