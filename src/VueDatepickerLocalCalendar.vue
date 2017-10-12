@@ -349,10 +349,6 @@ export default {
   color: #ccc;
 }
 
-{
-  color: #ccc;
-}
-
 .calendar-date:hover,
 .calendar-date-on {
   background: #eaf8fe;
