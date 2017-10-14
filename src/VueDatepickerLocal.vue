@@ -1,6 +1,7 @@
 <template>
-<div class="datepicker" :class="{'datepicker-range':range}">
+<div class="datepicker" :class="{'datepicker-range':range,'datepicker__clearable':clearable}">
   <input readonly :value="text" :class="{focus:show}" :disabled="disabled" :placeholder="placeholder"/>
+  <a class="datepicker-close" @click.stop="cls"></a>
   <transition name="datepicker-anim">
     <div class="datepicker-popup" tabindex="-1" v-if="show">
       <template v-if="range">
@@ -21,8 +22,12 @@ export default {
   name: 'VueDatepickerLocal',
   components: { VueDatepickerLocalCalendar },
   props: {
-    value: [Date, Array],
+    value: [Date, Array, String],
     disabled: [Boolean],
+    clearable: {
+      type: Boolean,
+      default: false
+    },
     placeholder: [String],
     disabledDate: {
       type: Function,
@@ -61,7 +66,13 @@ export default {
       return this.dates.length === 2
     },
     text () {
-      return this.dates.map(date => this.tf(date)).join(' ~ ')
+      const val = this.value
+      const txt = this.dates.map(date => this.tf(date)).join(' ~ ')
+      if (Array.isArray(val)) {
+        return val.length > 1 ? txt : ''
+      } else {
+        return val ? txt : ''
+      }
     }
   },
   watch: {
@@ -70,8 +81,15 @@ export default {
     }
   },
   methods: {
+    cls () {
+      this.$emit('input', this.range ? [] : '')
+    },
     vi (val) {
-      return Array.isArray(val) ? val.map(item => new Date(item)) : new Array(new Date(val))
+      if (Array.isArray(val)) {
+        return val.length > 1 ? val.map(item => new Date(item)) : [new Date(), new Date()]
+      } else {
+        return val ? new Array(new Date(val)) : [new Date()]
+      }
     },
     ok () {
       const $this = this
@@ -138,6 +156,44 @@ export default {
   background: url('data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjxwYXRoIGQ9Ik01NjQgMTgwLjJINDQ4Yy04LjMgMC0xNS02LjctMTUtMTVzNi43LTE1IDE1LTE1aDExNmM4LjIgMCAxNSA2LjcgMTUgMTVzLTYuOCAxNS0xNSAxNXoiIGZpbGw9IiM5ODk4OTgiLz48cGF0aCBkPSJNOTQ1IDk1Mi4ySDgxLjJjLTguMiAwLTE1LTYuNy0xNS0xNVYxNjIuOGMwLTguMyA2LjgtMTUgMTUtMTVIMjk0YzguMiAwIDE1IDYuNyAxNSAxNXMtNi44IDE1LTE1IDE1SDk2LjJ2NzQ0LjRIOTMwVjE3Ny44SDcxMy42Yy04LjMgMC0xNS02LjctMTUtMTVzNi43LTE1IDE1LTE1SDk0NWM4LjIgMCAxNSA2LjcgMTUgMTV2Nzc0LjRjMCA4LjMtNi44IDE1LTE1IDE1eiIgZmlsbD0iIzk4OTg5OCIvPjxwYXRoIGQ9Ik0zMzMuMyA1NTFIMjE2Yy04LjIgMC0xNS02LjgtMTUtMTVzNi44LTE1IDE1LTE1aDExNy4zYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1em0yMzAuMyAwSDQ0Ni4zYy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4zYzguMiAwIDE1IDYuNiAxNSAxNXMtNi44IDE1LTE1IDE1em0yMzAuMiAwSDY3Ni42Yy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4yYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1ek0zMzMuMyA3NDBIMjE2Yy04LjIgMC0xNS02LjgtMTUtMTVzNi44LTE1IDE1LTE1aDExNy4zYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1em0yMzAuMyAwSDQ0Ni4zYy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4zYzguMiAwIDE1IDYuNiAxNSAxNXMtNi44IDE1LTE1IDE1em0yMzAuMiAwSDY3Ni42Yy04LjMgMC0xNS02LjgtMTUtMTVzNi43LTE1IDE1LTE1aDExNy4yYzguMyAwIDE1IDYuNiAxNSAxNXMtNi43IDE1LTE1IDE1ek0zNzAuOCAyNTguNmMtOC4zIDAtMTUtNi43LTE1LTE1Vjg2LjhjMC04LjIgNi43LTE1IDE1LTE1czE1IDYuOCAxNSAxNXYxNTYuOGMwIDguMy02LjcgMTUtMTUgMTV6bTI3MC4yIDBjLTguMyAwLTE1LTYuNy0xNS0xNVY4Ni44YzAtOC4yIDYuNy0xNSAxNS0xNXMxNSA2LjggMTUgMTV2MTU2LjhjMCA4LjMtNi43IDE1LTE1IDE1ek05NDUgMzcyLjJIODEuMmMtOC4yIDAtMTUtNi43LTE1LTE1czYuOC0xNSAxNS0xNUg5NDVjOC4yIDAgMTUgNi43IDE1IDE1cy02LjggMTUtMTUgMTV6IiBmaWxsPSIjOTg5ODk4Ii8+PC9zdmc+') no-repeat 50% 50%;
 }
 
+.datepicker-close {
+  display: none;
+  position: absolute;
+  width: 34px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.datepicker-close:before {
+  display: block;
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 50%;
+  top: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  text-align: center;
+  background: #ccc;
+  color: #fff;
+  border-radius: 50%;
+  background:#ccc url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3IDciIHdpZHRoPSI3IiBoZWlnaHQ9IjciPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01LjU4LDVsMi44LTIuODFBLjQxLjQxLDAsMSwwLDcuOCwxLjZMNSw0LjQxLDIuMiwxLjZhLjQxLjQxLDAsMCwwLS41OC41OGgwTDQuNDIsNSwxLjYyLDcuOGEuNDEuNDEsMCwwLDAsLjU4LjU4TDUsNS41OCw3LjgsOC4zOWEuNDEuNDEsMCwwLDAsLjU4LS41OGgwWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEuNSAtMS40OCkiIHN0eWxlPSJmaWxsOiNmZmYiLz48L3N2Zz4NCg==') no-repeat 50% 50%;
+}
+
+.datepicker__clearable:hover:before {
+  display: none;
+}
+.datepicker__clearable:hover .datepicker-close{
+  display: block;
+}
+
+.datepicker-close:hover:before{
+  background-color: #afafaf;
+}
+
 .datepicker>input {
   color: #666;
   transition: all 200ms ease;
@@ -148,7 +204,6 @@ export default {
   padding: 0 34px 0 12px;
   font-size: 14px;
   width: 100%;
-  cursor: pointer;
   user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;

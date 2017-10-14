@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const banner =
-  'vue-datetime-local.js v1.0.2\n' +
+  'vue-datetime-local.js v1.0.3\n' +
   '(c) 2017-' + new Date().getFullYear() + ' weifeiyue\n' +
   'Released under the MIT License.'
 module.exports = {

@@ -5,7 +5,7 @@
   <vue-datepicker-local v-model="time" format="YYYY-MM-DD" :local="local"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY-MM"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY"/><br/>
-  <vue-datepicker-local v-model="now" format="YYYY-MM-DD HH:mm:ss"/><br/>
+  <vue-datepicker-local v-model="empty" format="YYYY-MM-DD HH:mm:ss" clearable/><br/>
   <vue-datepicker-local v-model="now" disabled/>
 </div>
 </template>
@@ -18,6 +18,7 @@ export default {
     const max = new Date(2017, 8, 30, 0, 0, 0)
     const now = new Date()
     return {
+      empty: '',
       now: now,
       time: min,
       min: min,
