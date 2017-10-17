@@ -1,7 +1,7 @@
 <template>
 <div>
   <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate"/><br/>
-  <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :local="local"/><br/>
+  <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :local="local" range-separator="至"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY-MM-DD" :local="local"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY-MM"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY"/><br/>

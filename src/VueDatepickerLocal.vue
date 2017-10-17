@@ -24,6 +24,10 @@ export default {
   props: {
     value: [Date, Array, String],
     disabled: [Boolean],
+    rangeSeparator: {
+      type: String,
+      default: '~'
+    },
     clearable: {
       type: Boolean,
       default: false
@@ -67,7 +71,7 @@ export default {
     },
     text () {
       const val = this.value
-      const txt = this.dates.map(date => this.tf(date)).join(' ~ ')
+      const txt = this.dates.map(date => this.tf(date)).join(` ${this.rangeSeparator} `)
       if (Array.isArray(val)) {
         return val.length > 1 ? txt : ''
       } else {
