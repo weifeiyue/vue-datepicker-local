@@ -71,6 +71,9 @@ The `dist` folder contains `vue-datepicker-local.js` and `vue-datepicker-local.c
 | Prop           | Description                                      | Type       | Default            |
 |:---------------|:-------------------------------------------------|:-----------|:-------------------|
 | v-model        | dates to be manipulated                          | Date/Array | --                 |
+| name           | name for input                                   | String     | --                 |
+| inputClass     | custom class name for input                      | String     | --                 |
+| popupClass     | custom class name for popup                      | String     | --                 |
 | disabled       | determine whether the DatePicker is disabled     | Boolean    | false              |
 | clearable      | clear the date                                   | Boolean    | false              |
 | rangeSeparator | range separator                                  | String     | "~"                |

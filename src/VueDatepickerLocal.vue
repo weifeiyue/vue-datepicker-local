@@ -1,9 +1,9 @@
 <template>
 <div class="datepicker" :class="{'datepicker-range':range,'datepicker__clearable':clearable}">
-  <input readonly :value="text" :class="{focus:show}" :disabled="disabled" :placeholder="placeholder"/>
+  <input readonly :value="text" :class="[show ? 'focus' : '', inputClass]" :disabled="disabled" :placeholder="placeholder" :name="name"/>
   <a class="datepicker-close" @click.stop="cls"></a>
   <transition name="datepicker-anim">
-    <div class="datepicker-popup" tabindex="-1" v-if="show">
+    <div class="datepicker-popup" :class="popupClass" tabindex="-1" v-if="show">
       <template v-if="range">
         <vue-datepicker-local-calendar v-model="dates[0]" :left="true"></vue-datepicker-local-calendar>
         <vue-datepicker-local-calendar v-model="dates[1]" :right="true"></vue-datepicker-local-calendar>
@@ -22,6 +22,9 @@ export default {
   name: 'VueDatepickerLocal',
   components: { VueDatepickerLocalCalendar },
   props: {
+    name: [String],
+    inputClass: [String],
+    popupClass: [String],
     value: [Date, Array, String],
     disabled: [Boolean],
     rangeSeparator: {
@@ -104,7 +107,7 @@ export default {
     },
     tf (time, format) {
       const year = time.getFullYear()
-      const month = time.getMonth() + 1
+      const month = time.getMonth()
       const day = time.getDate()
       const hours24 = time.getHours()
       const hours = hours24 % 12 === 0 ? 12 : hours24 % 12
@@ -114,8 +117,10 @@ export default {
       const dd = t => ('0' + t).slice(-2)
       const map = {
         YYYY: year,
-        MM: dd(month),
-        M: month,
+        MM: dd(month + 1),
+        MMM: this.local.months[month],
+        MMMM: this.local.monthsHead[month],
+        M: month + 1,
         DD: dd(day),
         D: day,
         HH: dd(hours24),
