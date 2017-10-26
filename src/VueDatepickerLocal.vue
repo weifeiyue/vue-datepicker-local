@@ -1,5 +1,5 @@
 <template>
-<div class="datepicker" :class="{'datepicker-range':range,'datepicker__clearable':clearable&&text}">
+<div class="datepicker" :class="{'datepicker-range':range,'datepicker__clearable':clearable&&text&&!disabled}">
   <input readonly :value="text" :class="[show ? 'focus' : '', inputClass]" :disabled="disabled" :placeholder="placeholder" :name="name"/>
   <a class="datepicker-close" @click.stop="cls"></a>
   <transition name="datepicker-anim">
