@@ -1,5 +1,5 @@
 import component from './VueDatepickerLocal.vue'
-const install = Vue => {
+function install (Vue) {
   Vue.component(component.name, component)
 }
 component.install = install
