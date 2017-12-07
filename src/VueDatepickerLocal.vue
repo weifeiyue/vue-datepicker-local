@@ -1,9 +1,9 @@
 <template>
 <div class="datepicker" :class="{'datepicker-range':range,'datepicker__clearable':clearable&&text&&!disabled}">
-  <input readonly :value="text" :class="[show ? 'focus' : '', inputClass]" :disabled="disabled" :placeholder="placeholder" :name="name"/>
+  <input readonly :value="text" :class="[show ? 'focus' : '', inputClass]" :disabled="disabled" :placeholder="placeholder" :name="name" v-if="type!=='inline'"/>
   <a class="datepicker-close" @click.stop="cls"></a>
   <transition name="datepicker-anim">
-    <div class="datepicker-popup" :class="popupClass" tabindex="-1" v-if="show">
+    <div class="datepicker-popup" :class="[popupClass,{'datepicker-inline':type==='inline'}]" tabindex="-1" v-if="show||type==='inline'">
       <template v-if="range">
         <vue-datepicker-local-calendar v-model="dates[0]" :left="true"></vue-datepicker-local-calendar>
         <vue-datepicker-local-calendar v-model="dates[1]" :right="true"></vue-datepicker-local-calendar>
@@ -27,6 +27,10 @@ export default {
     popupClass: [String],
     value: [Date, Array, String],
     disabled: [Boolean],
+    type: {
+      type: String,
+      default: 'normal'
+    },
     rangeSeparator: {
       type: String,
       default: '~'
@@ -248,6 +252,11 @@ export default {
   padding: 5px;
   overflow: hidden;
   z-index: 999
+}
+
+.datepicker-inline{
+  position: relative;
+  margin-top: 0;
 }
 
 .datepicker-range {

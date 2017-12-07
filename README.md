@@ -1,7 +1,7 @@
 # vue-datepicker-local
 
 ### A Beautiful Datepicker Component For Vue2
-* Lightweight (less than 4kb minified and gzipped)
+* Lightweight (less than 5kb minified and gzipped)
 * Only dependencies Vue
 * Beautiful!
 
@@ -72,6 +72,7 @@ The `dist` folder contains `vue-datepicker-local.js` and `vue-datepicker-local.c
 |:---------------|:-------------------------------------------------|:-----------|:-------------------|
 | v-model        | dates to be manipulated                          | Date/Array | --                 |
 | name           | name for input                                   | String     | --                 |
+| type           | type for input (inline/normal)                   | String     | normal             |
 | inputClass     | custom class name for input                      | String     | --                 |
 | popupClass     | custom class name for popup                      | String     | --                 |
 | disabled       | determine whether the DatePicker is disabled     | Boolean    | false              |
