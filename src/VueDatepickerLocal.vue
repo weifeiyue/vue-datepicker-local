@@ -5,11 +5,11 @@
   <transition name="datepicker-anim">
     <div class="datepicker-popup" :class="[popupClass,{'datepicker-inline':type==='inline'}]" tabindex="-1" v-if="show||type==='inline'">
       <template v-if="range">
-        <vue-datepicker-local-calendar v-model="dates[0]" :left="true"></vue-datepicker-local-calendar>
-        <vue-datepicker-local-calendar v-model="dates[1]" :right="true"></vue-datepicker-local-calendar>
+        <vue-datepicker-local-calendar v-model="dates[0]" :left="true" :pre="pre" :weekend-days="weekendDays" :max-date="maxDate" :min-date="minDate"></vue-datepicker-local-calendar>
+        <vue-datepicker-local-calendar v-model="dates[1]" :right="true" :pre="pre" :weekend-days="weekendDays" :max-date="maxDate" :min-date="minDate"></vue-datepicker-local-calendar>
       </template>
       <template v-else>
-        <vue-datepicker-local-calendar v-model="dates[0]"></vue-datepicker-local-calendar>
+        <vue-datepicker-local-calendar v-model="dates[0]" :pre="pre" :weekend-days="weekendDays" :max-date="maxDate" :min-date="minDate"></vue-datepicker-local-calendar>
       </template>
     </div>
   </transition>
@@ -27,6 +27,10 @@ export default {
     popupClass: [String],
     value: [Date, Array, String],
     disabled: [Boolean],
+    weekendDays: [Array],
+    pre: [String],
+    minDate: [Date],
+    maxDate: [Date],
     type: {
       type: String,
       default: 'normal'
