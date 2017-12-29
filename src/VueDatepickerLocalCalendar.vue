@@ -20,7 +20,7 @@
   <div :class="`${pre}-body`">
     <div :class="`${pre}-days`">
       <a :class="`${pre}-week`" v-for="i in local.weeks">{{i}}</a>
-      <a v-for="j in days" @click="is($event)&&(day=j.i,ok(j))" :class="[(j.p||j.n)?`${pre}-date-out`:'',status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]">{{j.i}}</a>
+      <a v-for="j in days" @click="is($event)&&(day=j.i,ok(j))" :class="[dayStatus(j),status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]">{{j.i}}</a>
     </div>
     <div :class="`${pre}-months`" v-show="showMonths">
       <a v-for="(i,j) in local.months" @click="is($event)&&(showMonths=(m==='M'),month=j,(m==='M'&&ok()))" :class="[status(year,j,day,hour,minute,second,'YYYYMM')]">{{i}}</a>
@@ -59,12 +59,27 @@ export default {
   props: {
     value: null,
     left: false,
-    right: false
+    right: false,
+    minDate: {
+      type: Date,
+      default: undefined
+    },
+    maxDate: {
+      type: Date,
+      default: undefined
+    },
+    pre: {
+      type: String,
+      default: 'calendar'
+    },
+    weekendDays: {
+      type: Array,
+      default: [0, 6]
+    }
   },
   data () {
     const time = this.get(this.value)
     return {
-      pre: 'calendar',
       m: 'D',
       showYears: false,
       showMonths: false,
@@ -76,7 +91,11 @@ export default {
       day: time.day,
       hour: time.hour,
       minute: time.minute,
-      second: time.second
+      second: time.second,
+      minMonth: this.minDate ? this.minDate.getMonth() : undefined,
+      minYear: this.minDate ? this.minDate.getFullYear() : undefined,
+      maxMonth: this.maxDate ? this.maxDate.getMonth() : undefined,
+      maxYear: this.maxDate ? this.maxDate.getFullYear() : undefined
     }
   },
   watch: {
@@ -176,6 +195,21 @@ export default {
     parse (num) {
       return parseInt(num / 1000)
     },
+    dayStatus (j) {
+      const classObj = {}
+      const today = new Date()
+      if (j.p || j.n) {
+        classObj[`${this.pre}-date-out`] = true
+      }
+      const day = new Date(j.y, j.m, j.i).getDay()
+      if (this.weekendDays.indexOf(day) !== -1) {
+        classObj[`${this.pre}-date-weekend`] = true
+      }
+      if (today.getDate() === j.i && today.getMonth() === j.m && today.getFullYear() === j.y) {
+        classObj[`${this.pre}-date-today`] = true
+      }
+      return classObj
+    },
     status (year, month, day, hour, minute, second, format) {
       const $this = this
       const maxDay = new Date(year, month + 1, 0).getDate()
@@ -192,12 +226,22 @@ export default {
         flag = f($this.value, format) === f(time, format)
       }
       classObj[`${$this.pre}-date`] = true
-      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || ($this.left && t > $this.end) || $this.$parent.disabledDate(time)
+      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || ($this.left && t > $this.end) ||
+          ($this.maxDate !== undefined && time > $this.maxDate) ||
+          ($this.minDate !== undefined && time < $this.minDate) ||
+          $this.$parent.disabledDate(time)
       classObj[`${$this.pre}-date-on`] = ($this.left && t > $this.start) || ($this.right && t < $this.end)
       classObj[`${$this.pre}-date-selected`] = flag
       return classObj
     },
     nm () {
+      if (this.maxDate !== undefined) {
+        const maxDate = new Date(this.maxYear, this.maxMonth, 1)
+        const curDate = new Date(this.year, this.month + 1, 1)
+        if (curDate > maxDate) {
+          return
+        }
+      }
       if (this.month < 11) {
         this.month++
       } else {
@@ -206,6 +250,13 @@ export default {
       }
     },
     pm () {
+      if (this.minDate !== undefined) {
+        const minDate = new Date(this.minYear, this.minMonth, 1)
+        const curDate = new Date(this.year, this.month - 1, 1)
+        if (curDate < minDate) {
+          return
+        }
+      }
       if (this.month > 0) {
         this.month--
       } else {
