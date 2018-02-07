@@ -7,6 +7,10 @@
       <template v-if="range">
         <vue-datepicker-local-calendar v-model="dates[0]" :left="true"></vue-datepicker-local-calendar>
         <vue-datepicker-local-calendar v-model="dates[1]" :right="true"></vue-datepicker-local-calendar>
+        <div v-if="showButtons" class="datepicker__buttons">
+          <button @click.stop="cancel" class="datepicker__button-cancel">{{this.local.cancelTip}}</button>
+          <button @click.stop="submit" class="datepicker__button-select">{{this.local.submitTip}}</button>
+        </div>
       </template>
       <template v-else>
         <vue-datepicker-local-calendar v-model="dates[0]"></vue-datepicker-local-calendar>
@@ -61,10 +65,17 @@ export default {
           yearSuffix: '年', // format of head
           monthsHead: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // months of head
           months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'), // months of panel
-          weeks: '一_二_三_四_五_六_日'.split('_') // weeks
+          weeks: '一_二_三_四_五_六_日'.split('_'), // weeks
+          cancelTip: '取消', // default text for cancel button
+          submitTip: '提交' // default text for submit button
         }
       }
-    }
+    },
+    showButtons: {
+      type: Boolean, 
+      default: false
+    },
+    dateRangeSelect: [Function]
   },
   data () {
     return {
@@ -141,6 +152,13 @@ export default {
     },
     dc (e) {
       this.show = this.$el.contains(e.target) && !this.disabled
+    },
+    submit () {
+      this.$emit('dateRangeSelect', this.dates)
+      this.show = false
+    },
+    cancel () {
+      this.show = false
     }
   },
   mounted () {
@@ -289,6 +307,30 @@ export default {
 .datepicker-anim-leave-active {
     transform-origin: 0 0;
     animation: datepicker-anim-out .2s cubic-bezier(.755, .05, .855, .06)
+}
+
+.datepicker__buttons {
+  display: block;
+  text-align: right;
+}
+
+.datepicker__buttons button {
+  display: inline-block;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0 10px 5px;
+  font-weight: 600;
+  padding: 5px 15px;
+  color: #ffffff;
+}
+
+.datepicker__buttons .datepicker__button-select {
+  background: #1284e7;
+}
+
+.datepicker__buttons .datepicker__button-cancel {
+  background: #666;
 }
 
 @keyframes datepicker-anim-in {
