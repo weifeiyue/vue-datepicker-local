@@ -1,6 +1,6 @@
 {
   "name": "vue-datepicker-local",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A datepicker for Vue.js",
   "main": "src/index.js",
   "files": [

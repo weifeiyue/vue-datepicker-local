@@ -7,14 +7,14 @@
       <template v-if="range">
         <vue-datepicker-local-calendar v-model="dates[0]" :left="true"></vue-datepicker-local-calendar>
         <vue-datepicker-local-calendar v-model="dates[1]" :right="true"></vue-datepicker-local-calendar>
-        <div v-if="showButtons" class="datepicker__buttons">
-          <button @click.stop="cancel" class="datepicker__button-cancel">{{this.local.cancelTip}}</button>
-          <button @click.stop="submit" class="datepicker__button-select">{{this.local.submitTip}}</button>
-        </div>
       </template>
       <template v-else>
         <vue-datepicker-local-calendar v-model="dates[0]"></vue-datepicker-local-calendar>
       </template>
+      <div v-if="showButtons" class="datepicker__buttons">
+        <button @click.stop="cancel" class="datepicker__button-cancel">{{this.local.cancelTip}}</button>
+        <button @click.stop="submit" class="datepicker__button-select">{{this.local.submitTip}}</button>
+      </div>
     </div>
   </transition>
 </div>
@@ -67,7 +67,7 @@ export default {
           months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'), // months of panel
           weeks: '一_二_三_四_五_六_日'.split('_'), // weeks
           cancelTip: '取消', // default text for cancel button
-          submitTip: '提交' // default text for submit button
+          submitTip: '确定' // default text for submit button
         }
       }
     },
@@ -103,6 +103,9 @@ export default {
     }
   },
   methods: {
+    get () {
+      return Array.isArray(this.value) ? this.dates : this.dates[0]
+    },
     cls () {
       this.$emit('input', this.range ? [] : '')
     },
@@ -115,8 +118,8 @@ export default {
     },
     ok () {
       const $this = this
-      $this.$emit('input', Array.isArray($this.value) ? $this.dates : $this.dates[0])
-      setTimeout(() => {
+      $this.$emit('input', $this.get())
+      !$this.showButtons && setTimeout(() => {
         $this.show = $this.range
       })
     },
@@ -154,7 +157,7 @@ export default {
       this.show = this.$el.contains(e.target) && !this.disabled
     },
     submit () {
-      this.$emit('dateRangeSelect', this.dates)
+      this.$emit('confirm', this.get())
       this.show = false
     },
     cancel () {
@@ -319,8 +322,7 @@ export default {
   font-size: 13px;
   border: none;
   cursor: pointer;
-  margin: 10px 0 10px 5px;
-  font-weight: 600;
+  margin: 10px 0 0 5px;
   padding: 5px 15px;
   color: #ffffff;
 }

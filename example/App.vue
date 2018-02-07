@@ -2,9 +2,9 @@
 <div>
   <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate"/><br/>
   <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :local="local" range-separator="至"/><br/>
-  <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :local="local" :showButtons="true" @dateRangeSelect="selectedDate"/><br/>
-  <vue-datepicker-local v-model="time" format="YYYY-MMM-DD" :local="local"/><br/>
-  <vue-datepicker-local v-model="time" format="YYYY-MM"/><br/>
+  <vue-datepicker-local v-model="timeRange" format="YYYY-MM-DD HH:mm:ss" :disabled-date="disabledDate" :local="local" show-buttons @confirm="selectedDate"/><br/>
+  <vue-datepicker-local v-model="time" format="YYYY-MMM-DD" :local="local" /><br/>
+  <vue-datepicker-local v-model="time" format="YYYY-MM" show-buttons @confirm="selectedDate"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY"/><br/>
   <vue-datepicker-local v-model="empty" format="YYYY-MM-DD HH:mm:ss" clearable placeholder="select date"/><br/>
   <vue-datepicker-local v-model="now" disabled/>
@@ -44,9 +44,9 @@ export default {
     disabledDate (time) {
       return time < this.min || time > this.max
     },
-    selectedDate (selectedRange) {
+    selectedDate (date) {
       console.log('You have been selected:')
-      console.log(selectedRange)
+      console.log(date)
     }
   }
 }
