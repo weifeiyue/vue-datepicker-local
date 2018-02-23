@@ -165,10 +165,10 @@ export default {
     }
   },
   mounted () {
-    document.addEventListener('click', this.dc)
+    document.addEventListener('click', this.dc, true)
   },
   beforeDestroy () {
-    document.removeEventListener('click', this.dc)
+    document.removeEventListener('click', this.dc, true)
   }
 }
 </script>
