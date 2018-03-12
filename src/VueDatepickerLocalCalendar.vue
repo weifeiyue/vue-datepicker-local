@@ -19,26 +19,26 @@
   </div>
   <div :class="`${pre}-body`">
     <div :class="`${pre}-days`">
-      <a :class="`${pre}-week`" v-for="i in local.weeks">{{i}}</a>
-      <a v-for="j in days" @click="is($event)&&(day=j.i,ok(j))" :class="[(j.p||j.n)?`${pre}-date-out`:'',status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]">{{j.i}}</a>
+      <a :class="`${pre}-week`" v-for="i in local.weeks"  :key="i">{{i}}</a>
+      <a v-for="(j,i) in days" @click="is($event)&&(day=j.i,ok(j))" :class="[(j.p||j.n)?`${pre}-date-out`:'',status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]" :key="i">{{j.i}}</a>
     </div>
     <div :class="`${pre}-months`" v-show="showMonths">
-      <a v-for="(i,j) in local.months" @click="is($event)&&(showMonths=(m==='M'),month=j,(m==='M'&&ok()))" :class="[status(year,j,day,hour,minute,second,'YYYYMM')]">{{i}}</a>
+      <a v-for="(i,j) in local.months" @click="is($event)&&(showMonths=(m==='M'),month=j,(m==='M'&&ok()))" :class="[status(year,j,day,hour,minute,second,'YYYYMM')]" :key="j">{{i}}</a>
     </div>
     <div :class="`${pre}-years`" v-show="showYears">
-      <a v-for="(i,j) in years" @click="is($event)&&(showYears=(m==='Y'),year=i,(m==='Y'&&ok()))" :class="[(j===0||j===11)?`${pre}-date-out`:'',status(i,month,day,hour,minute,second,'YYYY')]">{{i}}</a>
+      <a v-for="(i,j) in years" @click="is($event)&&(showYears=(m==='Y'),year=i,(m==='Y'&&ok()))" :class="[(j===0||j===11)?`${pre}-date-out`:'',status(i,month,day,hour,minute,second,'YYYY')]" :key="j">{{i}}</a>
     </div>
     <div :class="`${pre}-hours`" v-show="showHours">
       <div :class="`${pre}-title`">{{local.hourTip}}</div>
-      <a v-for="(j,i) in 24" @click="is($event)&&(showHours=false,hour=i,ok('h'))" :class="[status(year,month,day,i,minute,second,'YYYYMMDDHH')]">{{i}}</a>
+      <a v-for="(j,i) in 24" @click="is($event)&&(showHours=false,hour=i,ok('h'))" :class="[status(year,month,day,i,minute,second,'YYYYMMDDHH')]" :key="i">{{i}}</a>
     </div>
     <div :class="`${pre}-minutes`" v-show="showMinutes">
       <div :class="`${pre}-title`">{{local.minuteTip}}</div>
-      <a v-for="(j,i) in 60" @click="is($event)&&(showMinutes=false,minute=i,ok('h'))" :class="[status(year,month,day,hour,i,second,'YYYYMMDDHHmm')]">{{i}}</a>
+      <a v-for="(j,i) in 60" @click="is($event)&&(showMinutes=false,minute=i,ok('h'))" :class="[status(year,month,day,hour,i,second,'YYYYMMDDHHmm')]" :key="i">{{i}}</a>
     </div>
     <div :class="`${pre}-seconds`" v-show="showSeconds">
       <div :class="`${pre}-title`">{{local.secondTip}}</div>
-      <a v-for="(j,i) in 60" @click="is($event)&&(showSeconds=false,second=i,ok('h'))" :class="[status(year,month,day,hour,minute,i,'YYYYMMDDHHmmss')]">{{i}}</a>
+      <a v-for="(j,i) in 60" @click="is($event)&&(showSeconds=false,second=i,ok('h'))" :class="[status(year,month,day,hour,minute,i,'YYYYMMDDHHmmss')]" :key="i">{{i}}</a>
     </div>
   </div>
   <div :class="`${pre}-foot`" v-if="m==='H'">
@@ -192,7 +192,7 @@ export default {
         flag = f($this.value, format) === f(time, format)
       }
       classObj[`${$this.pre}-date`] = true
-      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || ($this.left && t > $this.end) || $this.$parent.disabledDate(time)
+      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || ($this.left && t > $this.end) || $this.$parent.disabledDate(time, format)
       classObj[`${$this.pre}-date-on`] = ($this.left && t > $this.start) || ($this.right && t < $this.end)
       classObj[`${$this.pre}-date-selected`] = flag
       return classObj
@@ -228,7 +228,7 @@ export default {
         month = time.month
       }
       $this.$emit('input', new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second))
-      $this.$parent.ok()
+      info !== 'h' && $this.$parent.ok()
     }
   },
   mounted () {

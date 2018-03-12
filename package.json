@@ -1,6 +1,6 @@
 {
   "name": "vue-datepicker-local",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A datepicker for Vue.js",
   "main": "src/index.js",
   "files": [
@@ -29,26 +29,26 @@
   },
   "homepage": "https://github.com/weifeiyue/vue-datepicker-local#readme",
   "dependencies": {
-    "vue": "^2.5.2"
+    "vue": "^2.5.15"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "cross-env": "^5.1.0",
-    "css-loader": "^0.28.7",
-    "eslint": "^4.9.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-html": "^3.2.2",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.6.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.4",
+    "css-loader": "^0.28.10",
+    "eslint": "^4.18.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-html": "^4.0.2",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1",
-    "extract-text-webpack-plugin": "^3.0.1",
-    "file-loader": "^1.1.5",
-    "vue-loader": "^13.3.0",
-    "vue-template-compiler": "^2.5.2",
-    "webpack": "^3.7.1",
-    "webpack-dev-server": "^2.9.2"
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.15",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "2.11.2"
   }
 }
