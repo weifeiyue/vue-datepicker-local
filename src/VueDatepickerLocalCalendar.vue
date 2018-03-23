@@ -228,7 +228,7 @@ export default {
         month = time.month
       }
       $this.$emit('input', new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second))
-      info !== 'h' && $this.$parent.ok()
+      $this.$parent.ok(info === 'h')
     }
   },
   mounted () {
