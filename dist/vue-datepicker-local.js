@@ -1,5 +1,5 @@
 /*!
- * vue-datetime-local.js v1.0.12
+ * vue-datetime-local.js v1.0.13
  * (c) 2017-2018 weifeiyue
  * Released under the MIT License.
  */
