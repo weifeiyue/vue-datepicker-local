@@ -72,7 +72,7 @@ export default {
       }
     },
     showButtons: {
-      type: Boolean, 
+      type: Boolean,
       default: false
     },
     dateRangeSelect: [Function]
@@ -116,10 +116,10 @@ export default {
         return val ? new Array(new Date(val)) : [new Date()]
       }
     },
-    ok () {
+    ok (leaveOpened) {
       const $this = this
       $this.$emit('input', $this.get())
-      !$this.showButtons && setTimeout(() => {
+      !leaveOpened && !$this.showButtons && setTimeout(() => {
         $this.show = $this.range
       })
     },
