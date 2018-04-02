@@ -12,8 +12,8 @@
         <vue-datepicker-local-calendar v-model="dates[0]"></vue-datepicker-local-calendar>
       </template>
       <div v-if="showButtons" class="datepicker__buttons">
-        <button @click.stop="cancel" class="datepicker__button-cancel">{{this.local.cancelTip}}</button>
-        <button @click.stop="submit" class="datepicker__button-select">{{this.local.submitTip}}</button>
+        <button @click.prevent.stop="cancel" class="datepicker__button-cancel">{{this.local.cancelTip}}</button>
+        <button @click.prevent.stop="submit" class="datepicker__button-select">{{this.local.submitTip}}</button>
       </div>
     </div>
   </transition>
