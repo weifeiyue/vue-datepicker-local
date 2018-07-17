@@ -89,6 +89,7 @@ export default {
       $this.hour = time.hour
       $this.minute = time.minute
       $this.second = time.second
+      this.$parent.$emit('onDateChange')
     }
   },
   computed: {

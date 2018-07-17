@@ -100,6 +100,7 @@ export default {
   watch: {
     value (val) {
       this.dates = this.vi(this.value)
+      this.$emit('onDateChange', this.get())
     }
   },
   methods: {
