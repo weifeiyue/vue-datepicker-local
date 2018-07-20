@@ -107,6 +107,7 @@ export default {
       return Array.isArray(this.value) ? this.dates : this.dates[0]
     },
     cls () {
+      this.$emit('clear')
       this.$emit('input', this.range ? [] : '')
     },
     vi (val) {
@@ -161,6 +162,7 @@ export default {
       this.show = false
     },
     cancel () {
+      this.$emit('cancel')
       this.show = false
     }
   },

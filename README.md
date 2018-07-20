@@ -89,6 +89,7 @@ The `dist` folder contains `vue-datepicker-local.js` and `vue-datepicker-local.c
 | Event Name     | Description                                      |  Parameters                          |
 |:---------------|:-------------------------------------------------|:-------------------------------------|
 | confirm        |triggers when user confirms                       |  the value component's binding value |
-
+| cancel         |triggers when user click the cancel button        | --                                   |
+| clear          |triggers when user click the clear button         | --                                   |
 ## License
 vue-datepicker-local is licensed under [The MIT License](LICENSE).
