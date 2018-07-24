@@ -7,8 +7,8 @@
   <vue-datepicker-local v-model="time" format="YYYY-MM" show-buttons @confirm="selectedDate"/><br/>
   <vue-datepicker-local v-model="time" format="YYYY"/><br/>
   <vue-datepicker-local v-model="empty" format="YYYY-MM-DD HH:mm:ss" clearable placeholder="select date"/><br/>
-  <vue-datepicker-local v-model="now" disabled/>
-
+  <vue-datepicker-local v-model="now" disabled/><br/>
+  <vue-datepicker-local v-model="timeRange"/><br/>
 </div>
 </template>
 

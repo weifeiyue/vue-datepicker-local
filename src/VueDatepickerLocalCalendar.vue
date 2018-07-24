@@ -192,7 +192,7 @@ export default {
         flag = f($this.value, format) === f(time, format)
       }
       classObj[`${$this.pre}-date`] = true
-      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || ($this.left && t > $this.end) || $this.$parent.disabledDate(time, format)
+      classObj[`${$this.pre}-date-disabled`] = ($this.right && t < $this.start) || $this.$parent.disabledDate(time, format)
       classObj[`${$this.pre}-date-on`] = ($this.left && t > $this.start) || ($this.right && t < $this.end)
       classObj[`${$this.pre}-date-selected`] = flag
       return classObj
@@ -227,7 +227,11 @@ export default {
         year = time.year
         month = time.month
       }
-      $this.$emit('input', new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second))
+      const _time = new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second)
+      if ($this.left && _time > $this.start) {
+        this.$parent.dates[1] = _time
+      }
+      $this.$emit('input', _time)
       $this.$parent.ok(info === 'h')
     }
   },
@@ -252,7 +256,6 @@ export default {
 <style>
 .calendar {
   float: left;
-  display: inline-block;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -328,7 +331,6 @@ export default {
   height: 14.28%;
   text-align: center;
   box-sizing: border-box;
-  display: inline-block;
   overflow: hidden;
   float: left;
 }
