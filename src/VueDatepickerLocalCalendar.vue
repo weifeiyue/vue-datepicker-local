@@ -228,7 +228,7 @@ export default {
         month = time.month
       }
       const _time = new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second)
-      if ($this.left && _time > $this.start) {
+      if ($this.left && parseInt(_time.getTime() / 1000) > $this.end) {
         this.$parent.dates[1] = _time
       }
       $this.$emit('input', _time)
