@@ -1,6 +1,6 @@
 {
   "name": "vue-datepicker-local",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "A datepicker for Vue.js",
   "main": "src/index.js",
   "files": [
@@ -10,7 +10,14 @@
     "README.md"
   ],
   "browserify": {
-    "transform": [["babelify"],["vueify"]]
+    "transform": [
+      [
+        "babelify"
+      ],
+      [
+        "vueify"
+      ]
+    ]
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",

@@ -23,10 +23,10 @@
       <a v-for="(j,i) in days" @click="is($event)&&(day=j.i,ok(j))" :class="[(j.p||j.n)?`${pre}-date-out`:'',status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]" :key="i">{{j.i}}</a>
     </div>
     <div :class="`${pre}-months`" v-show="showMonths">
-      <a v-for="(i,j) in local.months" @click="is($event)&&(showMonths=(m==='M'),month=j,(m==='M'&&ok()))" :class="[status(year,j,day,hour,minute,second,'YYYYMM')]" :key="j">{{i}}</a>
+      <a v-for="(i,j) in local.months" @click="is($event)&&(showMonths=(m==='M'),month=j,(m==='M'&&ok('m')))" :class="[status(year,j,day,hour,minute,second,'YYYYMM')]" :key="j">{{i}}</a>
     </div>
     <div :class="`${pre}-years`" v-show="showYears">
-      <a v-for="(i,j) in years" @click="is($event)&&(showYears=(m==='Y'),year=i,(m==='Y'&&ok()))" :class="[(j===0||j===11)?`${pre}-date-out`:'',status(i,month,day,hour,minute,second,'YYYY')]" :key="j">{{i}}</a>
+      <a v-for="(i,j) in years" @click="is($event)&&(showYears=(m==='Y'),year=i,(m==='Y'&&ok('y')))" :class="[(j===0||j===11)?`${pre}-date-out`:'',status(i,month,day,hour,minute,second,'YYYY')]" :key="j">{{i}}</a>
     </div>
     <div :class="`${pre}-hours`" v-show="showHours">
       <div :class="`${pre}-title`">{{local.hourTip}}</div>
@@ -220,14 +220,17 @@ export default {
       const $this = this
       let year = ''
       let month = ''
+      let day = ''
       info && info.n && $this.nm()
       info && info.p && $this.pm()
       if (info === 'h') {
         const time = $this.get(this.value)
         year = time.year
         month = time.month
+      } else if (info === 'm' || info === 'y') {
+        day = 1
       }
-      const _time = new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second)
+      const _time = new Date(year || $this.year, month || $this.month, day || $this.day, $this.hour, $this.minute, $this.second)
       if ($this.left && parseInt(_time.getTime() / 1000) > $this.end) {
         this.$parent.dates[1] = _time
       }
