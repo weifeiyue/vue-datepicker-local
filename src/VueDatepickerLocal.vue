@@ -288,6 +288,7 @@ export default {
 
 .datepicker-range .datepicker-popup{
   width: 403px;
+  box-sizing: content-box; // make range popup container include two datepicker for all application
 }
 
 .datepicker-bottom {
