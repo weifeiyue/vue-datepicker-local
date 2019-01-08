@@ -1,6 +1,6 @@
 <template>
 <div class="datepicker" :class="{'datepicker-range':range,'datepicker__clearable':clearable&&text&&!disabled}">
-  <input readonly :value="text" :class="[show ? 'focus' : '', inputClass]" :disabled="disabled" :placeholder="placeholder" :name="name" v-if="type!=='inline'"/>
+  <input readonly :value="text" @click.stop="showPicker" :class="[show ? 'focus' : '', inputClass]" :disabled="disabled" :placeholder="placeholder" :name="name" v-if="type!=='inline'"/>
   <a class="datepicker-close" @click.stop="cls"></a>
   <transition name="datepicker-anim">
     <div class="datepicker-popup" :class="[popupClass,{'datepicker-inline':type==='inline'}]" tabindex="-1" v-if="show||type==='inline'">
@@ -154,9 +154,9 @@ export default {
       }
       return (format || this.format).replace(/Y+|M+|D+|H+|h+|m+|s+|S+/g, str => map[str])
     },
-    dc (e) {
-      this.show = this.$el.contains(e.target) && !this.disabled
-    },
+   // dc (e) {
+   //   this.show = this.$el.contains(e.target) && !this.disabled
+   // },
     submit () {
       this.$emit('confirm', this.get())
       this.show = false
@@ -164,13 +164,18 @@ export default {
     cancel () {
       this.$emit('cancel')
       this.show = false
+    },
+    showPicker () {
+      if(this.show === false){
+        this.show = true
+      }
     }
   },
   mounted () {
-    document.addEventListener('click', this.dc, true)
+    // document.addEventListener('click', this.dc, true)
   },
   beforeDestroy () {
-    document.removeEventListener('click', this.dc, true)
+   // document.removeEventListener('click', this.dc, true)
   }
 }
 </script>
