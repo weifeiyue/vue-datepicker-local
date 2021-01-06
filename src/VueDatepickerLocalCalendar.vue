@@ -19,8 +19,8 @@
   </div>
   <div :class="`${pre}-body`">
     <div :class="`${pre}-days`">
-      <a :class="`${pre}-week`" v-for="i in local.weeks"  :key="i">{{i}}</a>
-      <a v-for="(j,i) in days" @click="is($event)&&(day=j.i,ok(j))" :class="[(j.p||j.n)?`${pre}-date-out`:'',status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]" :key="i">{{j.i}}</a>
+      <a :class="`${pre}-week`" v-for="(i, index) in local.weeks"  :key="index">{{i}}</a>
+      <a v-for="(j,i) in days" @click="is($event)&&(day=j.i,ok(j))" :class="[(j.p||j.n)?`${pre}-date-out`:'',status(j.y,j.m,j.i,hour,minute,second,'YYYYMMDD')]" :key="`${j.i}-${j.m}`">{{j.i}}</a>
     </div>
     <div :class="`${pre}-months`" v-show="showMonths">
       <a v-for="(i,j) in local.months" @click="is($event)&&(showMonths=(m==='M'),month=j,(m==='M'&&ok('m')))" :class="[status(year,j,day,hour,minute,second,'YYYYMM')]" :key="j">{{i}}</a>
